@@ -1,0 +1,1 @@
+- `LCC_Generator.nb` is a Mathematics notebook, and is used to generate the terms in the expansion of `ODD` and `EVEN` in Eq. (4) of the main text. The results are stored in `./cache/mask_cache`.
