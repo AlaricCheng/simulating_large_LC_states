@@ -55,8 +55,8 @@ def compose_fidelity(n_qubit, V4, T4, V3, return_avg=True):
         XZ_mask_arr=XZ_masks_cache[f"n_qubit"]
         ZX_mask_arr=ZX_masks_cache[f"n_qubit"]
     except:
-        XZ_mask_arr=load_mask_file("./mask_cache/XZ_{0}_mask.csv".format(n_qubit),N=n_qubit)
-        ZX_mask_arr=load_mask_file("./mask_cache/ZX_{0}_mask.csv".format(n_qubit),N=n_qubit)
+        XZ_mask_arr=load_mask_file("./cache/mask_cache/XZ_{0}_mask.csv".format(n_qubit),N=n_qubit)
+        ZX_mask_arr=load_mask_file("./cache/mask_cache/ZX_{0}_mask.csv".format(n_qubit),N=n_qubit)
     
     XZ=np.array([compose_on_mask(m, "XZ", V4, T4, V3) for m in XZ_mask_arr])
     ZX=np.array([compose_on_mask(m, "ZX", V4, T4, V3) for m in ZX_mask_arr])

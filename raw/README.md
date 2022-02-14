@@ -1,3 +1,0 @@
-- `big_circuit3_check_temp_likelyrho_1.txt` contains the probability distributions obtained from sub-circuit 1. There are 25 groups of distributions due to 25 repetitions of the experiment. In each group, there are 36 probability distributions, corresponding to different initial states and measurement bases. 
-
-- `big_circuit3_check_temp_likelyrho_2.txt` contains the probability distributions obtained from sub-circuit 2. There are 25 groups of distributions due to 25 repetitions of the experiment. In each group, there are 12 probability distributions, corresponding to different initial states and measurement bases. 

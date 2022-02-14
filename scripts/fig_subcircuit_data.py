@@ -1,5 +1,5 @@
 '''
-    Generate Fig. 3.
+    Generate Fig. 3 and Fig. S1 (a)
 
     In `XZ_original_data` and `ZX_original_data`, the output probability distributions of 3-qubit and 4-qubit linear cluster states are plotted. The following parameters used in these two functions specify the distributions. 
     - a: 1-6 determine the input state |0x0| |1x1| |+x+| |-x-| |+ix+i| |-ix-i| 
@@ -31,8 +31,8 @@ def to_observable(bitstring, basis = "XZ"):
 
 ##### Data that will be used globally #####
 # load data
-circ1_arr, circ1_the_arr=data_parser("./raw/big_circuit3_check_temp_likelyrho_1.txt",return_predict=True)
-circ2_arr, circ2_the_arr=data_parser("./raw/big_circuit3_check_temp_likelyrho_2.txt",return_predict=True)
+circ1_arr, circ1_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_1.txt",return_predict=True)
+circ2_arr, circ2_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_2.txt",return_predict=True)
 n_rep = int(circ1_arr.shape[0]/36) # num of repetitions, which 25
 
 
