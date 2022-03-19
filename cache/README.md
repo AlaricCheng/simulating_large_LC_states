@@ -4,4 +4,8 @@
 
 - `big_circuit3_check_temp_likelyrho_2.txt` contains the probability distributions obtained from sub-circuit 2. There are 25 groups of distributions due to 25 repetitions of the experiment. In each group, there are 12 probability distributions, corresponding to different initial states and measurement bases. 
 
+- `big_circuit3_fidelity.txt` contains the fidelity of state tomography fidelities of the first group and the last group of sub-circuits.
+
 - `cluster12_likelyrho.csv` is the probability distributions from 12-qubit linear cluster states, after processing with the maximum likelihood method. 
+
+- `calibration.json` contains the performance of qubits.
