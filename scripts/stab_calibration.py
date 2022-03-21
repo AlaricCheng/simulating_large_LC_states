@@ -18,6 +18,11 @@ def pln(arr,num):
 def pk(arr,k,num,scale=1):
     pln([data[ai][k]*scale for ai in arr],num)
 
+print('avg t1:',np.mean([data[ai]['t1'] for ai in qs]))
+print('avg t2*:',np.mean([data[ai]['t2'] for ai in qs]))
+print('avg 1q gate:',np.mean([data[ai]['rb_avg'] for ai in qs]))
+print('avg 2q gate:',np.mean([data[ai]['rb_avg'] for ai in czs]))
+
 print('s table 1:')
 
 pk(qs,'f01',3)
