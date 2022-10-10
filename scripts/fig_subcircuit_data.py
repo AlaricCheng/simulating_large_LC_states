@@ -8,6 +8,7 @@
 '''
 import sys
 sys.path.append('./scripts/lib')
+import argparse
 
 from local_lib import *
 import matplotlib.pyplot as plt
@@ -31,16 +32,16 @@ def to_observable(bitstring, basis = "XZ"):
 
 ##### Data that will be used globally #####
 # load data
-circ1_arr, circ1_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_1.txt",return_predict=True)
+circ1_arr, circ1_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_1.txt",return_predict=True) # 25 groups of data. Rows for different circuits and columns for different measurement outcomes
 circ2_arr, circ2_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_2.txt",return_predict=True)
-n_rep = int(circ1_arr.shape[0]/36) # num of repetitions, which 25
+n_rep = 2 # int(circ1_arr.shape[0]/36) # num of repetitions, which 25
 
 
 # process data
-circ1=[circ1_arr[j*36:(j+1)*36] for j in range(n_rep)]
-circ2=[circ2_arr[j*12:(j+1)*12] for j in range(n_rep)]
-circ1_the=[circ1_the_arr[j*36:(j+1)*36] for j in range(n_rep)]
-circ2_the=[circ2_the_arr[j*12:(j+1)*12] for j in range(n_rep)]
+circ1=[circ1_arr[j*36:(j+1)*36] for j in [0, 24]] # only take the first and the last experiments
+circ2=[circ2_arr[j*12:(j+1)*12] for j in [0, 24]]
+circ1_the=[circ1_the_arr[j*36:(j+1)*36] for j in [0, 24]]
+circ2_the=[circ2_the_arr[j*12:(j+1)*12] for j in [0, 24]]
 
 
 # average distribution
@@ -89,6 +90,7 @@ def XZ_original_data():
 
     # fig.tight_layout()
     fig.savefig("./output/XZ_original_data.svg",bbox_inches = 'tight')
+    print("XZ_original_data.svg")
 
 
 
@@ -128,6 +130,7 @@ def ZX_original_data():
 
     # fig.tight_layout()
     fig.savefig("./output/ZX_original_data.svg",bbox_inches = 'tight')
+    print("ZX_original_data.svg")
 
 
 
@@ -146,7 +149,7 @@ def subcircuit_expectations():
     std_4_XZ=[]
     (a,n,b)=(2,0,0)
     for mask in XZ_mask_arr_4:
-        f=list(map(lambda circ: exp4bit(a,n,b,mask,circ),circ1))
+        f=list(map(lambda circ: exp4bit(a,n,b,mask,circ, final_Z = True),circ1))
         data_4bit.append(f)
         avg_4_XZ.append(np.mean(f))
         std_4_XZ.append(np.std(f))
@@ -165,7 +168,7 @@ def subcircuit_expectations():
     data_4bit = np.array(data_4bit)
         
     # print(f"Fidelity of 4-qubit LC state: {np.mean(avg_4_XZ) + np.mean(avg_4_ZX) - 1}")
-    fidelity_4 = [np.mean(data_4bit[:4, i]) + np.mean(data_4bit[4:, i]) - 1 for i in range(25)]
+    fidelity_4 = [np.mean(data_4bit[:4, i]) + np.mean(data_4bit[4:, i]) - 1 for i in range(n_rep)]
     print(f"Fidelity of 4-qubit LC state: {np.mean(fidelity_4)}, Std: {np.std(fidelity_4)}")
 
     ##### 3-qubit linear cluster state #####
@@ -197,7 +200,7 @@ def subcircuit_expectations():
     data_3bit = np.array(data_3bit)
         
     # print(f"Fidelity of the 3-qubit LC state: {np.mean(avg_3_XZ) + np.mean(avg_3_ZX) - 1}")
-    fidelity_3 = [np.mean(data_3bit[:4, i]) + np.mean(data_3bit[4:, i]) - 1 for i in range(25)]
+    fidelity_3 = [np.mean(data_3bit[:4, i]) + np.mean(data_3bit[4:, i]) - 1 for i in range(n_rep)]
     print(f"Fidelity of 3-qubit LC state: {np.mean(fidelity_3)}, Std: {np.std(fidelity_3)}")
 
     ##### Plot figure #####
@@ -207,7 +210,7 @@ def subcircuit_expectations():
     # 4-qubit
     xticks_label_4 = list(map(lambda mask: to_observable(mask), XZ_mask_arr_4)) + list(map(lambda mask: to_observable(mask, basis = "ZX"), ZX_mask_arr_4[:-1])) # group the labels
     axes[0].bar(range(len(xticks_label_4)), avg_4_XZ + avg_4_ZX[:-1], yerr=std_4_XZ + std_4_ZX[:-1], capsize = 4, width = 0.6)
-    axes[0].set_ylim([0.3,1.1])
+    axes[0].set_ylim([0,1.1])
     axes[0].set_title("4-qubit linear-cluster state", fontsize = hfont["fontsize"])
     axes[0].set_ylabel("Expectation", fontsize = hfont["fontsize"])
     axes[0].set_xticks(range(len(xticks_label_4)), labels = xticks_label_4, rotation=30, **hfont)
@@ -216,18 +219,27 @@ def subcircuit_expectations():
     # 3-qubit
     xticks_label_3 = list(map(lambda mask: to_observable(mask), XZ_mask_arr_3)) + [to_observable(ZX_mask_arr_3[0], basis = "ZX")] # group the labels
     axes[1].bar(range(len(xticks_label_3)), avg_3_XZ+[avg_3_ZX[0]], yerr=std_3_XZ+[std_3_ZX[0]], capsize = 4, width = 0.4, color = "tab:red")
-    axes[1].set_ylim([0.3,1.1])
+    axes[1].set_ylim([0,1.1])
     axes[1].set_title("3-qubit linear-cluster state", fontsize = hfont["fontsize"])
     axes[1].set_xticks(range(len(xticks_label_3)), labels = xticks_label_3, rotation=30, **hfont)
     axes[1].tick_params(axis='y', left = False, labelleft = False)
 
     fig.tight_layout()
     fig.savefig("./output/subcircuit_expectations.svg")
+    print("subcircuit_expectations.svg")
 
 
 
 
 if __name__ == "__main__":
-    XZ_original_data()
-    ZX_original_data()
-    subcircuit_expectations()
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("-p", choices=["3a", "S1a", "3b"], help = "parameters for different figures")
+
+    args = parser.parse_args()
+    if args.p == "3a":
+        XZ_original_data()
+    elif args.p == "S1a":
+        ZX_original_data()
+    elif args.p == "3b": 
+        subcircuit_expectations()

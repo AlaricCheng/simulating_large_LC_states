@@ -1,6 +1,6 @@
-from qutip.qip.circuit import QubitCircuit, Gate
+from qutip.qip.circuit import QubitCircuit
 from qutip.qip.operations import gate_sequence_product
-from itertools import product, takewhile
+from itertools import product
 from functools import reduce
 from qutip.operators import *
 from qutip.states import *
@@ -18,14 +18,19 @@ This is a module based on QuTip to implement the LCC circuit composition .
 specific function only apply on 12bit-LCC experimental data
 '''
 
-def exp4bit(a,n,b,mask,circ):
+def exp4bit(a,n,b,mask,circ, final_Z = False):
     '''
     a: 1-6 determine the input state |0x0| |1x1| |+x+| |-x-| |+ix+i| |-ix-i| 
     n: 1-6, map to 0,1,2 determine the output base |0x0| |1x1| X, X, Y, Y 
     b: 0/1 xz or zx
+    final_Z (bool): if true, set the observable on the 4th qubit to be proj(0) or proj(1), depending on n;
+                    otherwise, set it to be Z
     '''
     c=(n//2+2)%3
-    eigs=apply_mask(get_eigs(4,n),mask)
+    if final_Z:
+        eigs=apply_mask(get_eigs(4,-1),mask)
+    else:
+        eigs=apply_mask(get_eigs(4,n),mask)
     return get_expectation(circ[6*a+3*b+c],eigs,reverse_order=True)
 
 def exp3bit(a,b,mask,circ):
@@ -82,7 +87,7 @@ def circuit_compose_expectation(circuits, bases):
     perform measurment on each circuits using provided bases and compose these result to a larger
     circuit.
     
-    Args：
+    Args:
         circuits(list): list of input circuits, U1, U2, U3.. Qobj
         bases(list): list of measurement bases, eg. [sigmax(),sigmaz()]*12
     Return:

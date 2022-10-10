@@ -3,6 +3,7 @@ Generate Fig. 4 and Fig. S1 (b)
 '''
 import sys
 sys.path.append('./scripts/lib')
+import argparse
 
 from local_lib import *
 import matplotlib.pyplot as plt
@@ -74,6 +75,7 @@ def circuit_cutting_vs_12_qubit_XZ():
 
     fig.tight_layout()
     fig.savefig("./output/circuit_cutting_vs_12_qubit_XZ.svg",bbox_inches = 'tight')
+    print("circuit_cutting_vs_12_qubit_XZ.svg")
 
 
 def circuit_cutting_vs_12_qubit_ZX():
@@ -93,6 +95,7 @@ def circuit_cutting_vs_12_qubit_ZX():
 
     fig.tight_layout()
     fig.savefig("./output/circuit_cutting_vs_12_qubit_ZX.svg",bbox_inches = 'tight')
+    print("circuit_cutting_vs_12_qubit_ZX.svg")
 
 
 def fidelity_decay():
@@ -137,10 +140,19 @@ def fidelity_decay():
     ax.legend(handles = [line1, line2], loc = "lower center", fontsize = fontsize)
     fig.tight_layout()
     fig.savefig("./output/fidelity_decay.svg", bbox_inches = 'tight')
+    print("fidelity_decay.svg")
 
 
 
 if __name__ == "__main__":
-    circuit_cutting_vs_12_qubit_XZ()
-    circuit_cutting_vs_12_qubit_ZX()
-    fidelity_decay() 
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument("-p", choices=["4a", "S1b", "4b"], help = "parameters for different figures")
+
+    args = parser.parse_args()
+    if args.p == "4a":
+        circuit_cutting_vs_12_qubit_XZ()
+    elif args.p == "S1b":
+        circuit_cutting_vs_12_qubit_ZX()
+    elif args.p == "4b":
+        fidelity_decay() 
