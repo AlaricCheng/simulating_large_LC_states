@@ -12,6 +12,7 @@ import argparse
 
 from local_lib import *
 import matplotlib.pyplot as plt
+import seaborn as sns
 # from tensor_processing import *
 # from copy import deepcopy
 
@@ -76,7 +77,8 @@ def XZ_original_data():
     ##### Plot figure #####
     fig, axes = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
     for i in range(4):
-        im = axes.flat[i].imshow(data_list_XZ[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
+#         im = axes.flat[i].imshow(data_list_XZ[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
+        im = sns.heatmap(data_list_XZ[i] , annot=True, fmt='.2f', linewidths=.5, ax=axes.flat[i], vmin=min_val, vmax=max_val, cmap='viridis', cbar=False)
         axes.flat[i].set_xticks(range(4))
         axes.flat[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
         
@@ -85,7 +87,7 @@ def XZ_original_data():
     axes.flat[2].set_xlabel("3-qubit theory", fontsize = fontsize)
     axes.flat[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
 
-    cbar = fig.colorbar(im, ax=axes.ravel().tolist())
+    cbar = fig.colorbar(im.collections[0], ax=axes.ravel().tolist())
     cbar.ax.tick_params(labelsize = fontsize)
 
     # fig.tight_layout()
@@ -116,7 +118,8 @@ def ZX_original_data():
     max_val = np.max([data_list_ZX[i].max() for i in range(4)])
     fig, axes = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
     for i in range(4):
-        im = axes.flat[i].imshow(data_list_ZX[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
+#         im = axes.flat[i].imshow(data_list_ZX[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
+        im = sns.heatmap(data_list_ZX[i] , annot=True, fmt='.2f', linewidths=.5, ax=axes.flat[i], vmin=min_val, vmax=max_val, cmap='viridis', cbar=False)
         axes.flat[i].set_xticks(range(4))
         axes.flat[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
         
@@ -125,7 +128,7 @@ def ZX_original_data():
     axes.flat[2].set_xlabel("3-qubit theory", fontsize = fontsize)
     axes.flat[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
 
-    cbar = fig.colorbar(im, ax=axes.ravel().tolist())
+    cbar = fig.colorbar(im.collections[0], ax=axes.ravel().tolist())
     cbar.ax.tick_params(labelsize = fontsize)
 
     # fig.tight_layout()
