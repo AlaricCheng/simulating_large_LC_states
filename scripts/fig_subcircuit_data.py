@@ -75,19 +75,24 @@ def XZ_original_data():
     max_val = np.max([data_list_XZ[i].max() for i in range(4)])
 
     ##### Plot figure #####
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
+    fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
+    axes = []
+    axes.append(plt.subplot2grid((8,6),(0,0),colspan=3,rowspan=4))
+    axes.append(plt.subplot2grid((8,6),(0,3),colspan=3,rowspan=4))
+    axes.append(plt.subplot2grid((8,6),(5,0),colspan=3,rowspan=2))
+    axes.append(plt.subplot2grid((8,6),(5,3),colspan=3,rowspan=2))
     for i in range(4):
 #         im = axes.flat[i].imshow(data_list_XZ[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
-        im = sns.heatmap(data_list_XZ[i] , annot=True, fmt='.2f', linewidths=.5, ax=axes.flat[i], vmin=min_val, vmax=max_val, cmap='viridis', cbar=False)
-        axes.flat[i].set_xticks(range(4))
-        axes.flat[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
+        im = sns.heatmap(data_list_XZ[i] , annot=True, fmt='.2f', ax=axes[i], vmin=min_val, vmax=max_val, cmap='coolwarm', cbar=False)
+        axes[i].set_xticks(range(4))
+        axes[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
         
-    axes.flat[0].set_xlabel("4-qubit theory", fontsize = fontsize)
-    axes.flat[1].set_xlabel("4-qubit experiment", fontsize = fontsize)
-    axes.flat[2].set_xlabel("3-qubit theory", fontsize = fontsize)
-    axes.flat[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
+    axes[0].set_xlabel("4-qubit theory", fontsize = fontsize)
+    axes[1].set_xlabel("4-qubit experiment", fontsize = fontsize)
+    axes[2].set_xlabel("3-qubit theory", fontsize = fontsize)
+    axes[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
 
-    cbar = fig.colorbar(im.collections[0], ax=axes.ravel().tolist())
+    cbar = fig.colorbar(im.collections[0], ax=axes)
     cbar.ax.tick_params(labelsize = fontsize)
 
     # fig.tight_layout()
@@ -116,19 +121,24 @@ def ZX_original_data():
 
     min_val = np.min([data_list_ZX[i].min() for i in range(4)])
     max_val = np.max([data_list_ZX[i].max() for i in range(4)])
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
+    fig, ax = plt.subplots(nrows=2, ncols=2, figsize = (8, 6), dpi = 120)
+    axes = []
+    axes.append(plt.subplot2grid((8,6),(0,0),colspan=3,rowspan=4))
+    axes.append(plt.subplot2grid((8,6),(0,3),colspan=3,rowspan=4))
+    axes.append(plt.subplot2grid((8,6),(5,0),colspan=3,rowspan=2))
+    axes.append(plt.subplot2grid((8,6),(5,3),colspan=3,rowspan=2))
     for i in range(4):
 #         im = axes.flat[i].imshow(data_list_ZX[i] , vmin=min_val, vmax=max_val, cmap = "coolwarm")
-        im = sns.heatmap(data_list_ZX[i] , annot=True, fmt='.2f', linewidths=.5, ax=axes.flat[i], vmin=min_val, vmax=max_val, cmap='viridis', cbar=False)
-        axes.flat[i].set_xticks(range(4))
-        axes.flat[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
+        im = sns.heatmap(data_list_ZX[i] , annot=True, fmt='.2f', ax=axes[i], vmin=min_val, vmax=max_val, cmap='coolwarm', cbar=False)
+        axes[i].set_xticks(range(4))
+        axes[i].tick_params(axis = "both", labelbottom = False, labelleft = False, bottom = False, left = False)
         
-    axes.flat[0].set_xlabel("4-qubit theory", fontsize = fontsize)
-    axes.flat[1].set_xlabel("4-qubit experiment", fontsize = fontsize)
-    axes.flat[2].set_xlabel("3-qubit theory", fontsize = fontsize)
-    axes.flat[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
+    axes[0].set_xlabel("4-qubit theory", fontsize = fontsize)
+    axes[1].set_xlabel("4-qubit experiment", fontsize = fontsize)
+    axes[2].set_xlabel("3-qubit theory", fontsize = fontsize)
+    axes[3].set_xlabel("3-qubit experiment", fontsize = fontsize)
 
-    cbar = fig.colorbar(im.collections[0], ax=axes.ravel().tolist())
+    cbar = fig.colorbar(im.collections[0], ax=axes)
     cbar.ax.tick_params(labelsize = fontsize)
 
     # fig.tight_layout()
