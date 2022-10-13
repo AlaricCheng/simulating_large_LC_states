@@ -35,14 +35,14 @@ def to_observable(bitstring, basis = "XZ"):
 # load data
 circ1_arr, circ1_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_1.txt",return_predict=True) # 25 groups of data. Rows for different circuits and columns for different measurement outcomes
 circ2_arr, circ2_the_arr=data_parser("./cache/big_circuit3_check_temp_likelyrho_2.txt",return_predict=True)
-n_rep = 2 # int(circ1_arr.shape[0]/36) # num of repetitions, which 25
+n_rep = int(circ1_arr.shape[0]/36) # num of repetitions, which 25
 
 
 # process data
-circ1=[circ1_arr[j*36:(j+1)*36] for j in [0, 24]] # only take the first and the last experiments
-circ2=[circ2_arr[j*12:(j+1)*12] for j in [0, 24]]
-circ1_the=[circ1_the_arr[j*36:(j+1)*36] for j in [0, 24]]
-circ2_the=[circ2_the_arr[j*12:(j+1)*12] for j in [0, 24]]
+circ1=[circ1_arr[j*36:(j+1)*36] for j in range(n_rep)] # only take the first and the last experiments
+circ2=[circ2_arr[j*12:(j+1)*12] for j in range(n_rep)]
+circ1_the=[circ1_the_arr[j*36:(j+1)*36] for j in range(n_rep)]
+circ2_the=[circ2_the_arr[j*12:(j+1)*12] for j in range(n_rep)]
 
 
 # average distribution
